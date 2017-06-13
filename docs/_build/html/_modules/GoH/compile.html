@@ -1,0 +1,313 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GoH.compile &mdash; Gospel of Health 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Gospel of Health 0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Gospel of Health
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference/index.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference/index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Gospel of Health</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>GoH.compile</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for GoH.compile</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<span class="k">def</span> <span class="nf">get_html_page</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+
+
+<span class="k">def</span> <span class="nf">get_local_corpus_data</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">wd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+    <span class="n">listing</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">wd</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">each</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">each</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
+                <span class="n">_id</span> <span class="o">=</span> <span class="n">each</span>
+                <span class="n">listing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_id</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">listing</span>
+
+
+<span class="k">def</span> <span class="nf">filename_from_html</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+    <span class="n">buttons</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;ms-vb-title&quot;</span><span class="p">)</span>
+
+    <span class="n">pdfIDArray</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">buttons</span><span class="p">:</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="n">each</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+        <span class="n">pdfID</span> <span class="o">=</span> <span class="n">links</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
+        <span class="n">pdfIDArray</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pdfID</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">pdfIDArray</span>
+
+<span class="k">def</span> <span class="nf">generate_url</span><span class="p">(</span><span class="n">last_title</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;http://documents.adventistarchives.org/Periodicals/Forms/AllItems.aspx?Paged=TRUE&amp;p_SortBehavior=0&amp;p_FileLeafRef=</span><span class="si">{}%2e</span><span class="s2">pdf&amp;RootFolder=</span><span class="si">%2f</span><span class="s2">Periodicals</span><span class="si">%2f{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_title</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">check_pagination</span><span class="p">(</span><span class="n">content</span><span class="p">):</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">&quot;ms-paging&quot;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No pagination available on page&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="k">def</span> <span class="nf">check_last_record</span><span class="p">(</span><span class="n">pdfIDArray</span><span class="p">):</span>
+    <span class="n">last</span> <span class="o">=</span> <span class="n">pdfIDArray</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">split_title</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">title_date</span> <span class="o">=</span> <span class="n">split_title</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">date</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">r&#39;[0-9]+&#39;</span><span class="p">,</span> <span class="n">title_date</span><span class="p">)</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">date</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1921</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="k">def</span> <span class="nf">get_next_url</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_list</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">check_last_record</span><span class="p">(</span><span class="n">file_list</span><span class="p">):</span>
+        <span class="n">last_title</span> <span class="o">=</span> <span class="n">file_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">new_url</span> <span class="o">=</span> <span class="n">generate_url</span><span class="p">(</span><span class="n">last_title</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">new_url</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Last record (</span><span class="si">{}</span><span class="s2">) is after 1920&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">last_title</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="process_url"><a class="viewcode-back" href="../../Reference/compile.html#GoH.compile.process_url">[docs]</a><span class="k">def</span> <span class="nf">process_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">pdfIDs</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    get baseurl results</span>
+<span class="sd">    - if next page option</span>
+<span class="sd">        - record last title</span>
+<span class="sd">        - if last title is before 1920</span>
+<span class="sd">            - get results</span>
+<span class="sd">            - if next page option</span>
+<span class="sd">                - if last title before 1920</span>
+<span class="sd">                    - get next url</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Processing </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">get_html_page</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">file_list</span> <span class="o">=</span> <span class="n">filename_from_html</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">pdfIDs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">file_list</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">check_pagination</span><span class="p">(</span><span class="n">content</span><span class="p">)</span> <span class="ow">and</span> <span class="n">check_last_record</span><span class="p">(</span><span class="n">file_list</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">get_next_url</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">file_list</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="n">process_url</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">pdfIDs</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Completed all pages in range.&quot;</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jeri E. Wieringa.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

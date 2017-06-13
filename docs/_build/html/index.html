@@ -1,0 +1,293 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Welcome to Gospel of Health’s documentation! &mdash; Gospel of Health 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Gospel of Health 0.1 documentation" href="#"/>
+        <link rel="next" title="Modules" href="Reference/index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> Gospel of Health
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Reference/index.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Reference/index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Gospel of Health</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>Welcome to Gospel of Health&#8217;s documentation!</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="welcome-to-gospel-of-health-s-documentation">
+<h1>Welcome to Gospel of Health&#8217;s documentation!<a class="headerlink" href="#welcome-to-gospel-of-health-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Reference/index.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Reference/charts.html">GoH.charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Reference/clean.html">GoH.clean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Reference/compile.html">GoH.compile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Reference/normalize.html">GoH.normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Reference/reports.html">GoH.reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Reference/utilities.html">GoH.utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Reference/index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</div>
+<div class="section" id="goh">
+<h2>GoH<a class="headerlink" href="#goh" title="Permalink to this headline">¶</a></h2>
+<p>Collection of functions used in my dissertation, <em>A Gospel of Health and Salvation</em>.</p>
+<p>Available sections of the module are:</p>
+<ul class="simple">
+<li>charts &#8211; code for generating data visualizations</li>
+<li>clean &#8211; code for cleaning messy OCR</li>
+<li>compile &#8211; code for generating data about the corpus</li>
+<li>normalize &#8211; code for standardizing the text</li>
+<li>reports &#8211; code for taking the data about the corpus and isolating particular elements</li>
+<li>utilities &#8211; helper functions for executing the above tasks.</li>
+</ul>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p>To generate error rate statistics:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">GoH.reports</span>
+
+<span class="n">GoH</span><span class="o">.</span><span class="n">reports</span><span class="o">.</span><span class="n">process_directory</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To create a spelling dictionary from text files:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">GoH.utilities</span>
+
+<span class="n">GoH</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">create_spelling_dictionary</span><span class="p">(</span><span class="n">wordlists</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>wordlists</cite> is a list of file(s) containing the verified words and <cite>directory</cite> is the directory where those wordlist files reside. This function converts all words to lowercase and returns only the list of unique entries.</p>
+</div>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>To install, navigate to the root directory of module (GoH/) and run</p>
+<p>To update, run</p>
+<p>If you are using with the dissertation conda environment, a version of this code is already included in the environment. To ensure that you have the latest version, run the update command before executing the notebooks.</p>
+</div>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="license">
+<h3>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="Reference/index.html" class="btn btn-neutral float-right" title="Modules" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jeri E. Wieringa.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

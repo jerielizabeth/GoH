@@ -1,0 +1,296 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GoH.utilities &mdash; Gospel of Health 0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Gospel of Health 0.1 documentation" href="../index.html"/>
+        <link rel="up" title="Modules" href="index.html"/>
+        <link rel="prev" title="GoH.reports" href="reports.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Gospel of Health
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="charts.html">GoH.charts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clean.html">GoH.clean</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compile.html">GoH.compile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="normalize.html">GoH.normalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reports.html">GoH.reports</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GoH.utilities</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Gospel of Health</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Modules</a> &raquo;</li>
+        
+      <li>GoH.utilities</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/Reference/utilities.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-GoH.utilities">
+<span id="goh-utilities"></span><h1>GoH.utilities<a class="headerlink" href="#module-GoH.utilities" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="GoH.utilities.create_spelling_dictionary">
+<code class="descclassname">GoH.utilities.</code><code class="descname">create_spelling_dictionary</code><span class="sig-paren">(</span><em>wordlists</em>, <em>directory</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/utilities.html#create_spelling_dictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.utilities.create_spelling_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compiles a spelling dictionary from one or multiple
+wordlist files. Returns results as a set.</p>
+<p>Arguments:
+wordlists &#8211; List of filenames for the wordlist files.
+directory &#8211; Location of the wordlist files.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.utilities.readfile">
+<code class="descclassname">GoH.utilities.</code><code class="descname">readfile</code><span class="sig-paren">(</span><em>input_dir</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/utilities.html#readfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.utilities.readfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in file from directory and file name.
+Returns the content of the file.</p>
+<p>Arguments:
+input_dir &#8211; Directory containing the file.
+filename &#8211; Name of file to be read.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.utilities.stats_to_df">
+<code class="descclassname">GoH.utilities.</code><code class="descname">stats_to_df</code><span class="sig-paren">(</span><em>corpus_statistics</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/utilities.html#stats_to_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.utilities.stats_to_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert dictionary of corpus statistics to a dataframe for computations</p>
+<p>Arguments:
+corpus_statistics &#8211;</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.utilities.strip_punct">
+<code class="descclassname">GoH.utilities.</code><code class="descname">strip_punct</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/utilities.html#strip_punct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.utilities.strip_punct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes select punctuation marks and numbers from a text
+and replaces them with a space.</p>
+<p>Non-permanent changes for evaluation purposes only.</p>
+<p>Uses the re library.</p>
+<p>Arguments:
+text &#8211; Content to be evaluated.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.utilities.to_lower">
+<code class="descclassname">GoH.utilities.</code><code class="descname">to_lower</code><span class="sig-paren">(</span><em>tokens</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/utilities.html#to_lower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.utilities.to_lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all tokens to lower case.</p>
+<p>Arguments:
+tokens &#8211; List of tokens generated using a tokenizer</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.utilities.tokenize_text">
+<code class="descclassname">GoH.utilities.</code><code class="descname">tokenize_text</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/utilities.html#tokenize_text"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.utilities.tokenize_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts file content to a list of tokens.</p>
+<p>Uses the NLTK Whitespace Tokenizer.</p>
+<p>Arguments:
+text &#8211; Content to be tokenized.</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="reports.html" class="btn btn-neutral" title="GoH.reports" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jeri E. Wieringa.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
