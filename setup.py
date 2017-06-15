@@ -18,11 +18,11 @@ setup(name='GoH',
       install_requires=[
           'beautifulsoup4',
           'nltk <= 3.2.2',
-          'pandas <=0.19.2',
-          'pyxdameraulevenshtein', 
-          # 'gensim >= 0, < 2',
+          'pandas <= 0.19.2',
+          'gensim <= 1.0.1',
           'textblob',
-          # 'scipy >= 0.16, < 0.18',
+          'scipy <= 0.19.0',
           # 'numpy <= 1.12.0'
+          'bokeh == 0.12.5'
       ],
       zip_safe=False)
