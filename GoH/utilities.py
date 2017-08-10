@@ -9,6 +9,7 @@ Examples:
     >>> spelling_dictionary = GoH.utilities.create_spelling_dictionary( wordlists, directory )
 
 """
+import gspread
 from nltk.tokenize import WhitespaceTokenizer
 from nltk import word_tokenize
 import os
@@ -255,7 +256,9 @@ def get_doc_errors( input_dir, filename, dictionary ):
     return identify_errors(tokens, dictionary)
 
 
-def open_original_docs( pdf_dir, text_dir, filenames):
+def open_original_docs(filenames,
+    pdf_dir='/Users/jeriwieringa/Dissertation/text/corpus-pdf/periodicals/', 
+    text_dir='/Users/jeriwieringa/Dissertation/text/text/2017-04-Final-Corpus/'):
     """Opens the PDF and TXT files for a list of page ids.
     Used to verify the content of files that report high error rates or unusual error information.
 
@@ -289,3 +292,4 @@ def define_directories( prev, cycle, base_dir ):
         dict: Dictionary with keys `prev` and `cycle` and values of the corresponding directory paths.
     """
     return {'prev': join(base_dir, prev), 'cycle': join(base_dir, cycle)}
+
