@@ -1,6 +1,8 @@
 from bokeh.charts import Bar, HeatMap, TimeSeries, show, output_file
 from bokeh.models import HoverTool, BoxZoomTool, Legend, ResetTool, SaveTool
 from bokeh.palettes import viridis, d3
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 # Visualization Functions
@@ -44,7 +46,7 @@ def create_timeseries(df, x_axis, y_axis, model, colors=30):
     p = TimeSeries(df, 
                    x=x_axis,
                    y=y_axis, 
-                   legend=True,
+                   legend=False,
                    ylabel='Proportion of Total Topic Weights per Topic ID for {}'.format(model),
                    color="topic_words",
                    palette=viridis(colors), 
@@ -75,7 +77,26 @@ def create_bargraph(df, x_axis, y_axis):
             palette=d3['Category20'][20]
            )
     
-    return p    
+    return p  
+
+
+def create_regression_plot(df, yaxis):
+  """
+  Uses a lowess smoother to fit a nonparametric regression.
+  Use with the normalized weights: tracing the pattern of the proportion
+  of the topic per year.
+  Pass in the results of `modeldata.topic_series()`
+  """
+  return sns.lmplot(x="year", y=yaxis, row="topic_words", data=df, lowess=True, size=2.5, aspect=3.5)
+
+def create_facet_bargraph(df):
+  """
+  Uses FacetGrid to split by topic.
+  Pass in the results of `modeldata.topic_series()`
+  """
+  g = sns.FacetGrid(df, row="topic_words", size=2.5, aspect=3.5)
+  return g.map_dataframe(sns.barplot, x='year', y='normalized_weight')
+
 
 ## Composit Function
 # def visualize_models(df, period, filter_df=False):
