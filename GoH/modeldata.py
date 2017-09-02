@@ -4,14 +4,14 @@ import os
 import pandas as pd
 
 
-def queue_docs(base_dir, model_scheme, period):
+def queue_docs(base_dir, test, model_scheme, period):
     """
     base_dir, model_scheme, period
     """
 
     corpus_index = os.path.join(base_dir, 'corpora/{}/{}.txt'.format(model_scheme, period))
-    dtm = os.path.join(base_dir, 'dataframes/final/{}-{}_dtm.csv'.format(model_scheme, period))
-    topic_labels = os.path.join(base_dir, 'dataframes/final/{}-{}_topicLabels.csv'.format(model_scheme, period))
+    dtm = os.path.join(base_dir, 'dataframes/{}/{}-{}_dtm.csv'.format(test, model_scheme, period))
+    topic_labels = os.path.join(base_dir, 'dataframes/{}/{}-{}_topicLabels.csv'.format(test, model_scheme, period))
     metadata = os.path.join(base_dir,'2017-05-corpus-stats/2017-05-Composite-OCR-statistics.csv')
 
     return (corpus_index, dtm, topic_labels, metadata)
@@ -81,11 +81,11 @@ def compile_dataframe( docs_tuple, normalize=True):
 
 
 
-def model_to_df(base_dir, model_scheme, period):
+def model_to_df(base_dir, test, model_scheme, period):
     """
     base_dir, directory, corpus_file, model_scheme
     """
-    docs = queue_docs(base_dir, model_scheme, period)
+    docs = queue_docs(base_dir, test, model_scheme, period)
     df = compile_dataframe(docs)
     
     return df
@@ -120,6 +120,10 @@ def topic_series(df, groupby_fields, labels):
 
 def get_top(df, group, value):
     """
+    Args:
+        df (dataframe): pandas dataframe
+        group (str): name of the column to group by, such as "topic_id" or "doc_id"
+        value (str): name of the column to get max values from, such as "norm_topic_weight" or "normalized_weight"
     """
     return df.groupby(group).apply(lambda x: x[x[value].isin(x[value].nlargest(5))]).reset_index(drop=True)
 
