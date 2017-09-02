@@ -23,6 +23,7 @@ setup(name='GoH',
           'textblob',
           'scipy <= 0.19.0',
           # 'numpy <= 1.12.0'
-          'bokeh == 0.12.5'
+          'bokeh == 0.12.5',
+          'seaborn'
       ],
       zip_safe=False)
