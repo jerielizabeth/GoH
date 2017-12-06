@@ -155,7 +155,8 @@ class Lemma_Corpus(object):
         tokens = word_tokenize(content)
         lemmas = lemmatize_tokens(tokens)
 
-        return filter_tokens(lemmas)
+        # return filter_tokens(lemmas)
+        return lemmas
 
     def __iter__(self):
         for title, doc_id, content in iter_Periodicals(self.fname):
