@@ -1,9 +1,7 @@
 from gensim import utils
-from gensim.parsing.preprocessing import STOPWORDS
 from GoH.preprocess import ENTITIES
 import itertools
 import logging
-# from nltk.tokenize import WhitespaceTokenizer
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk import word_tokenize
 import os
@@ -78,12 +76,12 @@ def connect_phrases(content, entities=ENTITIES):
     return content
 
 
-def filter_tokens(tokens, stopwords=STOPWORDS):
+def filter_tokens(tokens):
     """Filter out short and stopword tokens for clustering.
     """
     token_list = []
     for token in tokens:
-        if len(token) > 3 and token not in stopwords:
+        if len(token) > 2:
             token_list.append(token)
         else:
             continue
@@ -155,8 +153,8 @@ class Lemma_Corpus(object):
         tokens = word_tokenize(content)
         lemmas = lemmatize_tokens(tokens)
 
-        # return filter_tokens(lemmas)
-        return lemmas
+        return filter_tokens(lemmas)
+        # return lemmas
 
     def __iter__(self):
         for title, doc_id, content in iter_Periodicals(self.fname):
