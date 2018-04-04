@@ -256,3 +256,10 @@ def overview_report(directory, spelling_dictionary, title):
     # chart_error_rate_per_doc( df, title )
 
     return corpus_statistics
+
+def overview_statistics(directory, spelling_dictionary, title):
+    """
+    """
+    corpus_statistics = process_directory(directory, spelling_dictionary)
+
+    return utilities.stats_to_df(corpus_statistics)

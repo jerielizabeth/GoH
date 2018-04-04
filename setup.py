@@ -7,7 +7,7 @@ def readme():
         return f.read()
 
 setup(name='GoH',
-      version='0.1',
+      version='0.2',
       description='Dissertation related functions and utilities',
       long_description=readme(),
       url='',
@@ -19,7 +19,7 @@ setup(name='GoH',
           'beautifulsoup4',
           'nltk <= 3.2.2',
           'pandas <= 0.19.2',
-          'gensim <= 1.0.1',
+          'gensim == 3.1.0',
           'textblob',
           'scipy <= 0.19.0',
           # 'numpy <= 1.12.0'

@@ -1,4 +1,5 @@
 from gensim import utils
+from gensim.parsing.preprocessing import STOPWORDS
 from GoH.preprocess import ENTITIES
 import itertools
 import logging
@@ -10,6 +11,15 @@ import sys
 import tarfile
 from textblob import TextBlob
 
+"""
+Series of functions for processing files for analysis. 
+
+Processes modified from the gensim api and tutorials: 
+
+- 
+- 
+
+"""
 
 def process_page(page):
     """
@@ -36,6 +46,7 @@ def iter_Periodicals(fname, log_every=500):
 
     Args:
         fname (str): Name of the archive file.
+        log_every (int): Logging frequency to report on the files.
 
     Yields:
         str: Yields the content of the file after passing it through the :func:`process_page` function.
@@ -53,22 +64,33 @@ def iter_Periodicals(fname, log_every=500):
 
 
 def head(stream, n=10):
-    """Convenience fnc: return the first `n` elements of the stream, as plain list."""
+    """
+    Convenience fnc: return the first `n` elements of the stream, as plain list.
+    
+    """
     return list(itertools.islice(stream, n))
 
 
 def connect_phrases(content, entities=ENTITIES):
     """Convert named entities into a single token.
 
+    Args:
+        content ():
+        entities (str): List of frequent phrases, calculated separately and loaded from file for convenience.
+    Yields:
+        str: text of the file converted to lower case.
     """
     phrases = []
         
+    # Use TextBlob to identify candidate phrases in incomming pages.
     for np in TextBlob(content).noun_phrases:
         if ' ' in np and np.lower() in entities:            
             phrases.append(np.lower())
 
+    # Convert content of files to lower
     content = content.lower()
     
+    # Work through the identified phrases and connect with an underscore.
     for phrase in phrases:
         replacement_phrase = re.sub('\s', '_', phrase)
         content = re.sub(phrase, replacement_phrase, content)
@@ -81,7 +103,7 @@ def filter_tokens(tokens):
     """
     token_list = []
     for token in tokens:
-        if len(token) > 2:
+        if len(token) > 2 and token not in STOPWORDS:
             token_list.append(token)
         else:
             continue
@@ -154,10 +176,11 @@ class Lemma_Corpus(object):
         lemmas = lemmatize_tokens(tokens)
 
         return filter_tokens(lemmas)
-        # return lemmas
 
-    def __iter__(self):
+    def __iter__(self, log_every=1000):
         for title, doc_id, content in iter_Periodicals(self.fname):
+            if log_every and doc_id % log_every == 0:
+                logging.info("{}".format(self.process_corpus(content)))
             yield title, doc_id, self.process_corpus(content)
 
 

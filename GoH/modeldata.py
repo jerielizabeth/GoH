@@ -118,14 +118,14 @@ def topic_series(df, groupby_fields, labels):
     return normed.merge(labels, on="topic_id")
 
 
-def get_top(df, group, value):
+def get_top(df, group, value, n=5):
     """
     Args:
         df (dataframe): pandas dataframe
         group (str): name of the column to group by, such as "topic_id" or "doc_id"
         value (str): name of the column to get max values from, such as "norm_topic_weight" or "normalized_weight"
     """
-    return df.groupby(group).apply(lambda x: x[x[value].isin(x[value].nlargest(5))]).reset_index(drop=True)
+    return df.groupby(group).apply(lambda x: x[x[value].isin(x[value].nlargest(n))]).reset_index(drop=True)
 
 
 

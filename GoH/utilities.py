@@ -16,6 +16,8 @@ import os
 from os import path
 import pandas as pd
 import re
+import tarfile
+
 
 def readfile( input_dir, filename ):
 	"""Reads in file from directory and file name.
@@ -293,3 +295,45 @@ def define_directories( prev, cycle, base_dir ):
     """
     return {'prev': join(base_dir, prev), 'cycle': join(base_dir, cycle)}
 
+
+def extract_words_from_dictionary(filepath):
+    """Helper function for extracting a list of tokens from the output of Gensim's id2word function.
+    Uses Pandas to load dictionary data as a dataframe. Returns tokens as a list.
+
+    Args:
+        filepath (str): Path to Gensim dictionary file (txt)
+    Returns:
+        list: List of unique tokens.
+    """
+    with open(filepath) as f:
+        df = pd.read_table(f, header=None, names=['word_id', 'word', 'count'])
+    
+    return df.word.unique().tolist()
+
+
+def create_tar_files(corpusDir, samplePrefix, tarFullCorpusObject, selectList):
+    """Creates two corpus tar files from a selection list, a sample file and a holdout file.
+
+    Note:
+        Numbers in filenames denote [min tokens, max error rate, percent included]
+        
+    Args:
+        corpusDir (str): Output path for tar files
+        samplePrefix (str): Unique identifier for tar files
+        tarFullCorpusObject (): Tar object from the full corpus
+        selectList (list): List of filenames (basenames) to include in sample.
+    Returns:
+        No return     
+    """
+    SampleTar = tarfile.open(os.path.join(corpusDir, '{}Sample.tar.gz'.format(samplePrefix)), 'w:gz')
+    HoldoutTar = tarfile.open(os.path.join(corpusDir, '{}Holdout.tar.gz'.format(samplePrefix)), 'w:gz')
+
+    #Skip first member of tar file, as it is the directory
+    for member in tarFullCorpusObject.getmembers()[1:]:
+        if os.path.basename(member.name) in selectList:
+            SampleTar.addfile(member, tarFullCorpusObject.extractfile(member))
+        else:
+            HoldoutTar.addfile(member, tarFullCorpusObject.extractfile(member))
+
+    SampleTar.close()
+    HoldoutTar.close()
