@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GoH.normalize &#8212; Gospel of Health and Salvation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          Gospel of Health and Salvation</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference/index.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference/index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for GoH.normalize</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="kn">import</span> <span class="nn">GoH.utilities</span>
+<span class="kn">import</span> <span class="nn">operator</span>
+<span class="kn">from</span> <span class="nn">pyxdameraulevenshtein</span> <span class="k">import</span> <span class="n">normalized_damerau_levenshtein_distance</span>
+
+
+<span class="k">def</span> <span class="nf">get_approved_tokens</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">,</span> <span class="n">verified_tokens</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">GoH</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">strip_punct</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">GoH</span><span class="o">.</span><span class="n">utilities</span><span class="o">.</span><span class="n">tokenize_text</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">spelling_dictionary</span><span class="p">:</span>
+            <span class="n">verified_tokens</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">verify_split_string</span><span class="p">(</span><span class="n">list_split_string</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">):</span>
+    <span class="n">total_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">list_split_string</span><span class="p">)</span>
+    <span class="n">verified_splits</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">short_splits</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">list_split_string</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">split</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">spelling_dictionary</span><span class="p">:</span>
+            <span class="n">verified_splits</span> <span class="o">=</span> <span class="n">verified_splits</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">split</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">short_splits</span> <span class="o">=</span> <span class="n">short_splits</span> <span class="o">+</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">if</span> <span class="n">verified_splits</span> <span class="o">/</span> <span class="n">total_len</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">6</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">short_splits</span> <span class="o">/</span> <span class="n">total_len</span> <span class="o">&lt;</span> <span class="o">.</span><span class="mi">5</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="infer_spaces"><a class="viewcode-back" href="../../Reference/normalize.html#GoH.normalize.infer_spaces">[docs]</a><span class="k">def</span> <span class="nf">infer_spaces</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">wordcost</span><span class="p">,</span> <span class="n">maxword</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Uses dynamic programming to infer the location of spaces in a string</span>
+<span class="sd">    without spaces.&quot;&quot;&quot;</span>
+
+    <span class="c1"># solution from http://stackoverflow.com/questions/8870261/how-to-split-text-without-spaces-into-list-of-words</span>
+
+    <span class="c1"># Find the best match for the i first characters, assuming cost has</span>
+    <span class="c1"># been built for the i-1 first characters.</span>
+    <span class="c1"># Returns a pair (match_cost, match_length).</span>
+    <span class="k">def</span> <span class="nf">best_match</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="n">candidates</span> <span class="o">=</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">cost</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="n">maxword</span><span class="p">):</span><span class="n">i</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="nb">min</span><span class="p">((</span><span class="n">c</span> <span class="o">+</span> <span class="n">wordcost</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="p">],</span> <span class="mf">9e999</span><span class="p">),</span> <span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="n">candidates</span><span class="p">)</span>
+
+    <span class="c1"># Build the cost array.</span>
+    <span class="n">cost</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">c</span><span class="p">,</span><span class="n">k</span> <span class="o">=</span> <span class="n">best_match</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">cost</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+    <span class="c1"># Backtrack to recover the minimal-cost string.</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">c</span><span class="p">,</span><span class="n">k</span> <span class="o">=</span> <span class="n">best_match</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">c</span> <span class="o">==</span> <span class="n">cost</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">k</span><span class="p">:</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">i</span> <span class="o">-=</span> <span class="n">k</span>
+
+    <span class="k">return</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">out</span><span class="p">))</span></div>
+
+
+<span class="k">def</span> <span class="nf">check_probability</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">WORDS</span><span class="p">):</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">WORDS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">WORDS</span><span class="p">[</span><span class="n">word</span><span class="p">]</span><span class="o">/</span><span class="n">N</span>
+
+
+<span class="k">def</span> <span class="nf">check_for_substitutes</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">,</span> <span class="n">WORDS</span><span class="p">):</span>
+    <span class="n">potential_subs</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="nb">range</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">spelling_dictionary</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">range</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">distance</span> <span class="o">=</span> <span class="n">normalized_damerau_levenshtein_distance</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="o">.</span><span class="mi">20</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">check_probability</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">WORDS</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">000001</span><span class="p">:</span>
+                    <span class="n">potential_subs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">word</span><span class="p">:</span> <span class="n">check_probability</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">WORDS</span><span class="p">)})</span>
+                <span class="k">elif</span> <span class="n">check_probability</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">WORDS</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">.</span><span class="mi">000001</span><span class="p">:</span>
+                    <span class="n">potential_subs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">word</span><span class="o">.</span><span class="n">title</span><span class="p">():</span> <span class="n">check_probability</span><span class="p">(</span><span class="n">word</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">WORDS</span><span class="p">)})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">potential_subs</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># def interactive_check(error, subs):</span>
+<span class="c1">#</span>
+<span class="c1">#     print(&quot;Error = {}: Substitution = {}&quot;.format(error, word))</span>
+<span class="c1">#     decision = input(&quot;Approve substitution? y/n: &quot;)</span>
+<span class="c1">#     if decision is &#39;y&#39;:</span>
+<span class="c1">#         replacements.append((error, word))</span>
+<span class="c1">#         return True</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         pass</span>
+
+
+<span class="k">def</span> <span class="nf">run_spell_check_program</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="n">replacements</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="k">if</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error under consideration: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">concordance</span><span class="p">(</span><span class="n">error</span><span class="p">))</span>
+
+            <span class="c1"># try to find substitution. Once substitution is chosen, move on.</span>
+            <span class="n">found_sub</span> <span class="o">=</span> <span class="n">check_for_substitutes</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">,</span> <span class="n">replacements</span><span class="p">)</span>
+
+            <span class="c1"># if unable to find substitution</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">found_sub</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">manual_entry</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Provide manual response? (y/n) &quot;</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">manual_entry</span> <span class="ow">is</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+                    <span class="n">replacement_word</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Corrected word: &quot;</span><span class="p">)</span>
+                    <span class="n">replacements</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">error</span><span class="p">,</span> <span class="n">replacement_word</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">replacements</span>
+
+
+<span class="k">def</span> <span class="nf">auto_spell_check</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">,</span> <span class="n">WORDS</span><span class="p">):</span>
+    <span class="n">replacements</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">error</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">:</span>
+        <span class="k">if</span> <span class="mi">2</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+            <span class="n">found_subs</span> <span class="o">=</span> <span class="n">check_for_substitutes</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">spelling_dictionary</span><span class="p">,</span> <span class="n">WORDS</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">found_subs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">replacements</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">error</span><span class="p">,</span> <span class="n">found_subs</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">replacements</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018, Jeri E. Wieringa.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
