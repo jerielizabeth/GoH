@@ -18,7 +18,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-import sphinx_bootstrap_theme
+# import sphinx_bootstrap_theme
 import sys
 sys.path.insert(0, os.path.abspath('../GoH/'))
 
