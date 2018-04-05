@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GoH.utilities &#8212; Gospel of Health and Salvation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          Gospel of Health and Salvation</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference/index.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Reference/index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for GoH.utilities</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The utilities package provides a collection of functions used to prepare data for different</span>
+<span class="sd">analysis tasks. These are largely helper functions, but some can operate on their own.</span>
+
+<span class="sd">Examples:</span>
+<span class="sd">    &gt;&gt;&gt; text = GoH.utilities.readfile( input_dir, filename)</span>
+<span class="sd">    &gt;&gt;&gt; spelling_dictionary = GoH.utilities.create_spelling_dictionary( wordlists, directory )</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">gspread</span>
+<span class="kn">from</span> <span class="nn">nltk.tokenize</span> <span class="k">import</span> <span class="n">WhitespaceTokenizer</span>
+<span class="kn">from</span> <span class="nn">nltk</span> <span class="k">import</span> <span class="n">word_tokenize</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">path</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">tarfile</span>
+
+
+<div class="viewcode-block" id="readfile"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.readfile">[docs]</a><span class="k">def</span> <span class="nf">readfile</span><span class="p">(</span> <span class="n">input_dir</span><span class="p">,</span> <span class="n">filename</span> <span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Reads in file from directory and file name.</span>
+<span class="sd">	Returns the content of the file.</span>
+
+<span class="sd">    Usage::</span>
+
+<span class="sd">        &gt;&gt;&gt; text = readfile(input_dir, filename)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        input_dir (str): Directory with the input file.</span>
+<span class="sd">        filename (str): Name of file to be read.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Returns the content of the file as a string.</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="strip_punct"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.strip_punct">[docs]</a><span class="k">def</span> <span class="nf">strip_punct</span><span class="p">(</span> <span class="n">text</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove punctuation and numbers.</span>
+<span class="sd">    Remove select punctuation marks and numbers from a text and replaces them with a space.</span>
+<span class="sd">    </span>
+<span class="sd">    Non-permanent changes for evaluation purposes only.</span>
+<span class="sd">    </span>
+<span class="sd">    Uses the :mod:`re` library.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Content to be evaluated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Returns the content string without the following characters: 0-9,.!?$:;&amp;&quot;.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+    <span class="n">text_cleaned</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[0-9,.!?$:;&amp;</span><span class="se">\&quot;</span><span class="s2">]&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">text_cleaned</span></div>
+
+
+<div class="viewcode-block" id="tokenize_text"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.tokenize_text">[docs]</a><span class="k">def</span> <span class="nf">tokenize_text</span><span class="p">(</span> <span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="s1">&#39;whitespace&#39;</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Converts file content to a list of tokens. </span>
+
+<span class="sd">    Uses :meth:`nltk.tokenize.regexp.WhitespaceTokenizer`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        text (str): Content to be tokenized.</span>
+<span class="sd">        tokenizer(str): option of tokenizer. Current options are &#39;whitespace&#39; and</span>
+<span class="sd">            &#39;word&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Returns a list of the tokens in the text, separated by white space.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tokenizer</span> <span class="o">==</span> <span class="s1">&#39;whitespace&#39;</span> <span class="ow">or</span> <span class="n">tokenizer</span> <span class="o">==</span> <span class="s1">&#39;word&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">tokenizer</span> <span class="o">==</span> <span class="s1">&#39;whitespace&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">WhitespaceTokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">tokenizer</span> <span class="o">==</span> <span class="s1">&#39;word&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">word_tokenize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Tokenizer value </span><span class="si">{}</span><span class="s1"> is invalid. Must be &quot;whitespace&quot; or &quot;word&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="to_lower"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.to_lower">[docs]</a><span class="k">def</span> <span class="nf">to_lower</span><span class="p">(</span> <span class="n">tokens</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert all tokens to lower case.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        tokens (list): List of tokens generated using a tokenizer.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of all tokens converted to lowercase.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="create_spelling_dictionary"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.create_spelling_dictionary">[docs]</a><span class="k">def</span> <span class="nf">create_spelling_dictionary</span><span class="p">(</span> <span class="n">directory</span><span class="p">,</span> <span class="n">wordlists</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compile a spelling dictionary.</span>
+<span class="sd">    Compiles a spelling dictionary from one or multiple</span>
+<span class="sd">    wordlist files. Returns results as a set.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        :func:`GoH.utilities.readfile`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        directory (str): Location of the wordlist files.</span>
+<span class="sd">        wordlists (list): List of filenames for the wordlist files.</span>
+
+
+<span class="sd">    Returns:</span>
+<span class="sd">        set: List of unique words in all the compiled lists.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">spelling_dictionary</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">wordlist</span> <span class="ow">in</span> <span class="n">wordlists</span><span class="p">:</span>
+        <span class="n">words</span> <span class="o">=</span> <span class="n">readfile</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">wordlist</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="n">word_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">words</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">each</span> <span class="ow">in</span> <span class="n">word_list</span><span class="p">:</span>
+            <span class="n">spelling_dictionary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">each</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">spelling_dictionary</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="stats_to_df"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.stats_to_df">[docs]</a><span class="k">def</span> <span class="nf">stats_to_df</span><span class="p">(</span> <span class="n">corpus_statistics</span> <span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot;Convert stats to dictionary.</span>
+<span class="sd">    Convert dictionary of corpus statistics to a dataframe for computations.</span>
+<span class="sd">    </span>
+<span class="sd">    Uses :mod:`pandas`.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        Uses the data generated by :func:`GoH.reports.process_directory`.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Use :func:`GoH.reports.process_directory` before running `stats_to_df`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        corpus_statistics (dict): List of dictionaries with the information about all of the files in a directory.</span>
+<span class="sd">        The corpus data should be formatted as follows::</span>
+
+<span class="sd">            {</span>
+<span class="sd">                &#39;doc_id&#39;: document,</span>
+<span class="sd">                &#39;num_tokens&#39;: len(tokens),</span>
+<span class="sd">                &#39;num_unique_tokens&#39;: len(set(tokens)),</span>
+<span class="sd">                &#39;num_errors&#39;: error_total,</span>
+<span class="sd">                &#39;error_rate&#39;: rate,</span>
+<span class="sd">                &#39;errors&#39;: error_report</span>
+<span class="sd">            }</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataframe: Returns a dataframe with the following columns::</span>
+
+<span class="sd">            `doc_id`</span>
+<span class="sd">            `error_rate`</span>
+<span class="sd">            `num_tokens`</span>
+<span class="sd">            `num_errors`</span>
+
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">corpus_statistics</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;doc_id&quot;</span><span class="p">,</span> <span class="s2">&quot;error_rate&quot;</span><span class="p">,</span> <span class="s2">&quot;num_tokens&quot;</span><span class="p">,</span> <span class="s2">&quot;num_errors&quot;</span><span class="p">])</span>
+
+	<span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="rate_per_doc"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.rate_per_doc">[docs]</a><span class="k">def</span> <span class="nf">rate_per_doc</span><span class="p">(</span> <span class="n">corpus_statistics</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gather a list of doc_id and error_rates.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">        Uses the data generated by :func:`GoH.reports.process_directory`.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Use :func:`GoH.reports.process_directory` before running `stats_to_df`</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        corpus_statistics (dict): List of dictionaries with the information about all of the files in a directory.</span>
+<span class="sd">        The corpus data should be formatted as follows::</span>
+
+<span class="sd">            {</span>
+<span class="sd">                &#39;doc_id&#39;: document,</span>
+<span class="sd">                &#39;num_tokens&#39;: len(tokens),</span>
+<span class="sd">                &#39;num_unique_tokens&#39;: len(set(tokens)),</span>
+<span class="sd">                &#39;num_errors&#39;: error_total,</span>
+<span class="sd">                &#39;error_rate&#39;: rate,</span>
+<span class="sd">                &#39;errors&#39;: error_report</span>
+<span class="sd">            }</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Returns a subset of the data in `corpus_statistics`, namely the doc_id and the error_rate. </span>
+<span class="sd">        Formatted as below::</span>
+
+<span class="sd">            { </span>
+<span class="sd">                &#39;doc_id&#39;: &#39;TITLEYYYYMMDD-V00-00-page0.txt&#39;</span>
+<span class="sd">                &#39;error_rate&#39;: .02</span>
+<span class="sd">            }</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">docs_2_rates</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">report</span> <span class="ow">in</span> <span class="n">corpus_statistics</span><span class="p">:</span>
+        <span class="n">docs_2_rates</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">report</span><span class="p">[</span><span class="s1">&#39;doc_id&#39;</span><span class="p">]:</span> <span class="n">report</span><span class="p">[</span><span class="s1">&#39;error_rate&#39;</span><span class="p">]})</span>
+
+    <span class="k">return</span> <span class="n">docs_2_rates</span></div>
+
+
+<div class="viewcode-block" id="get_year"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.get_year">[docs]</a><span class="k">def</span> <span class="nf">get_year</span><span class="p">(</span> <span class="n">page_id</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract year information from a page ids.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        File names must be structured as follows::</span>
+
+<span class="sd">            TITLEYYYYMMDD-V00-00-page0.txt</span>
+<span class="sd">        </span>
+<span class="sd">        or::</span>
+
+<span class="sd">            TITLEYYYYMMDD-V00-00.pdf</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        page_id (str): Filename to parse, format according to the note.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Returns the first four digits, which corresponds to the year of publication.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">split_id</span> <span class="o">=</span> <span class="n">page_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">dates</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[0-9]+&#39;</span><span class="p">,</span> <span class="n">split_id</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">dates</span><span class="o">.</span><span class="n">group</span><span class="p">()[:</span><span class="mi">4</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_title"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.get_title">[docs]</a><span class="k">def</span> <span class="nf">get_title</span><span class="p">(</span> <span class="n">page_id</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Extract year information from a page ids.</span>
+<span class="sd">    </span>
+<span class="sd">    Note:</span>
+<span class="sd">        File names must be structured as follows::</span>
+
+<span class="sd">            TITLEYYYYMMDD-V00-00-page0.txt</span>
+<span class="sd">        </span>
+<span class="sd">        or::</span>
+
+<span class="sd">            TITLEYYYYMMDD-V00-00.pdf</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        page_id (str): Filename to parse, formatted according to the note.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Returns the title information from the page id.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">split_id</span> <span class="o">=</span> <span class="n">page_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;[A-Za-z]+&quot;</span><span class="p">,</span> <span class="n">split_id</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">title</span><span class="o">.</span><span class="n">group</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_doc_errors"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.get_doc_errors">[docs]</a><span class="k">def</span> <span class="nf">get_doc_errors</span><span class="p">(</span> <span class="n">input_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">dictionary</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Identify words in text that are not in a dictionary set.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        input_dir (str): Directory containing text files</span>
+<span class="sd">        filename (str): Name of file to evaluate</span>
+<span class="sd">        dictionary (set): Set of verified words</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        set: Returns set of words in doc that are not in the dictionary.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">strip_punct</span><span class="p">(</span><span class="n">readfile</span><span class="p">(</span><span class="n">input_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">))</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">to_lower</span><span class="p">(</span><span class="n">tokenize_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="s1">&#39;whitespace&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">identify_errors</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="open_original_docs"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.open_original_docs">[docs]</a><span class="k">def</span> <span class="nf">open_original_docs</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span>
+    <span class="n">pdf_dir</span><span class="o">=</span><span class="s1">&#39;/Users/jeriwieringa/Dissertation/text/corpus-pdf/periodicals/&#39;</span><span class="p">,</span> 
+    <span class="n">text_dir</span><span class="o">=</span><span class="s1">&#39;/Users/jeriwieringa/Dissertation/text/text/2017-04-Final-Corpus/&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Opens the PDF and TXT files for a list of page ids.</span>
+<span class="sd">    Used to verify the content of files that report high error rates or unusual error information.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        pdf_dir (str): Path to directory with PDF files.</span>
+<span class="sd">        text_dir (str): Path to directory with TXT files.</span>
+<span class="sd">        filenames (list): List of filenames to open.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Opened files: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="n">base_filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">pdf_filename</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.pdf&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">base_filename</span><span class="p">))</span>
+
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;open </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text_dir</span><span class="p">,</span> <span class="n">filename</span><span class="p">)))</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s2">&quot;open </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pdf_dir</span><span class="p">,</span> <span class="n">pdf_filename</span><span class="p">)))</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="define_directories"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.define_directories">[docs]</a><span class="k">def</span> <span class="nf">define_directories</span><span class="p">(</span> <span class="n">prev</span><span class="p">,</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">base_dir</span> <span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function for iterating through document cleaning.</span>
+<span class="sd">    This function redefines the directory information for each round of cleaning.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        prev (str): Name of cycle that was just completed.</span>
+<span class="sd">        cycle (str): Name of current cycle.</span>
+<span class="sd">        base_dir (str): Root directory</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Dictionary with keys `prev` and `cycle` and values of the corresponding directory paths.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;prev&#39;</span><span class="p">:</span> <span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">prev</span><span class="p">),</span> <span class="s1">&#39;cycle&#39;</span><span class="p">:</span> <span class="n">join</span><span class="p">(</span><span class="n">base_dir</span><span class="p">,</span> <span class="n">cycle</span><span class="p">)}</span></div>
+
+
+<div class="viewcode-block" id="extract_words_from_dictionary"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.extract_words_from_dictionary">[docs]</a><span class="k">def</span> <span class="nf">extract_words_from_dictionary</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function for extracting a list of tokens from the output of Gensim&#39;s id2word function.</span>
+<span class="sd">    Uses Pandas to load dictionary data as a dataframe. Returns tokens as a list.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filepath (str): Path to Gensim dictionary file (txt)</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        list: List of unique tokens.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;word_id&#39;</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">word</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="create_tar_files"><a class="viewcode-back" href="../../Reference/utilities.html#GoH.utilities.create_tar_files">[docs]</a><span class="k">def</span> <span class="nf">create_tar_files</span><span class="p">(</span><span class="n">corpusDir</span><span class="p">,</span> <span class="n">samplePrefix</span><span class="p">,</span> <span class="n">tarFullCorpusObject</span><span class="p">,</span> <span class="n">selectList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates two corpus tar files from a selection list, a sample file and a holdout file.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        Numbers in filenames denote [min tokens, max error rate, percent included]</span>
+<span class="sd">        </span>
+<span class="sd">    Args:</span>
+<span class="sd">        corpusDir (str): Output path for tar files</span>
+<span class="sd">        samplePrefix (str): Unique identifier for tar files</span>
+<span class="sd">        tarFullCorpusObject (): Tar object from the full corpus</span>
+<span class="sd">        selectList (list): List of filenames (basenames) to include in sample.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        No return     </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SampleTar</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">corpusDir</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">Sample.tar.gz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">samplePrefix</span><span class="p">)),</span> <span class="s1">&#39;w:gz&#39;</span><span class="p">)</span>
+    <span class="n">HoldoutTar</span> <span class="o">=</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">corpusDir</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">Holdout.tar.gz&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">samplePrefix</span><span class="p">)),</span> <span class="s1">&#39;w:gz&#39;</span><span class="p">)</span>
+
+    <span class="c1">#Skip first member of tar file, as it is the directory</span>
+    <span class="k">for</span> <span class="n">member</span> <span class="ow">in</span> <span class="n">tarFullCorpusObject</span><span class="o">.</span><span class="n">getmembers</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">member</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="n">selectList</span><span class="p">:</span>
+            <span class="n">SampleTar</span><span class="o">.</span><span class="n">addfile</span><span class="p">(</span><span class="n">member</span><span class="p">,</span> <span class="n">tarFullCorpusObject</span><span class="o">.</span><span class="n">extractfile</span><span class="p">(</span><span class="n">member</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">HoldoutTar</span><span class="o">.</span><span class="n">addfile</span><span class="p">(</span><span class="n">member</span><span class="p">,</span> <span class="n">tarFullCorpusObject</span><span class="o">.</span><span class="n">extractfile</span><span class="p">(</span><span class="n">member</span><span class="p">))</span>
+
+    <span class="n">SampleTar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">HoldoutTar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018, Jeri E. Wieringa.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>GoH.compile &#8212; Gospel of Health and Salvation 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GoH.normalize" href="normalize.html" />
+    <link rel="prev" title="GoH.clean" href="clean.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          Gospel of Health and Salvation</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.5</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">GoH.compile</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="clean.html" title="Previous Chapter: GoH.clean"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; GoH.clean</span>
+    </a>
+  </li>
+  <li>
+    <a href="normalize.html" title="Next Chapter: GoH.normalize"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">GoH.normalize &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/Reference/compile.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="module-GoH.compile">
+<span id="goh-compile"></span><h1>GoH.compile<a class="headerlink" href="#module-GoH.compile" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="GoH.compile.check_year">
+<code class="descclassname">GoH.compile.</code><code class="descname">check_year</code><span class="sig-paren">(</span><em>pdfID</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/compile.html#check_year"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.compile.check_year" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses regex to check the year from the PDF filename.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pdfID</strong> (<em>str</em>) &#8211; The filename of the PDF object, formatted as
+PREFIXYYYYMMDD-V00-00</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.compile.filename_from_html">
+<code class="descclassname">GoH.compile.</code><code class="descname">filename_from_html</code><span class="sig-paren">(</span><em>content</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/compile.html#filename_from_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.compile.filename_from_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses Beautiful Soup to extract the PDF ids from the HTML page.</p>
+<p>This script is customized to the structure of the archive pages at
+<a class="reference external" href="http://documents.adventistarchives.org/Periodicals/Forms/AllFolders.aspx">http://documents.adventistarchives.org/Periodicals/Forms/AllFolders.aspx</a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>content</strong> (<em>str</em>) &#8211; Content is retrieved from a URL using the <cite>get_html_page</cite>
+function.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.compile.generate_url">
+<code class="descclassname">GoH.compile.</code><code class="descname">generate_url</code><span class="sig-paren">(</span><em>last_title</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/compile.html#generate_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.compile.generate_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function generates a new URL for iterating through the periodical titles.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.compile.get_html_page">
+<code class="descclassname">GoH.compile.</code><code class="descname">get_html_page</code><span class="sig-paren">(</span><em>url</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/compile.html#get_html_page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.compile.get_html_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses the requests library to get HTML content from URL</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="GoH.compile.process_url">
+<code class="descclassname">GoH.compile.</code><code class="descname">process_url</code><span class="sig-paren">(</span><em>url</em>, <em>pdfIDs</em>, <em>title</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GoH/compile.html#process_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GoH.compile.process_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>get baseurl results
+- if next page option</p>
+<blockquote>
+<div><ul class="simple">
+<li>record last title</li>
+<li><dl class="first docutils">
+<dt>if last title is before 1920</dt>
+<dd><ul class="first last">
+<li>get results</li>
+<li><dl class="first docutils">
+<dt>if next page option</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>if last title before 1920</dt>
+<dd><ul class="first last">
+<li>get next url</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2018, Jeri E. Wieringa.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
