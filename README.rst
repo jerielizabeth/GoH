@@ -4,16 +4,6 @@ GoH
 
 Collection of functions used in my dissertation, *A Gospel of Health and Salvation*. 
 
-Available sections of the module are: 
-
-+ charts -- code for generating data visualizations
-+ clean -- code for cleaning messy OCR
-+ compile -- code for generating data about the corpus
-+ model -- code creating topic modeling pipeline
-+ normalize -- code for standardizing the text
-+ reports -- code for taking the data about the corpus and isolating particular elements
-+ utilities -- helper functions for executing the above tasks.
-
 
 Examples
 --------
@@ -37,24 +27,28 @@ To create a spelling dictionary from text files:
 `wordlists` is a list of file(s) containing the verified words and `directory` is the directory where those wordlist files reside. This function converts all words to lowercase and returns only the list of unique entries.
 
 
-
 Installation
 ------------
 
-To install, navigate to the root directory of module (GoH/) and run
+I am primarily distributing this library in order to share the computational work of my dissertation and enable it to be repeated and reused. This is not a particularly well formed or generalized library and so I am not distributing via `PyPI <https://pypi.python.org/pypi>`_. 
 
-.. code-block::
+If you are using this library with my `Dissertation notebooks <https://github.com/jerielizabeth/Gospel-of-Health-Notebooks>`_, I recommend following the instructions on that repository for setting up and activating a local environment with Conda prior to installing the GoH library.
+
+You can install the library by cloning the repository, navigating to the root directory of module (GoH/), and running:  
+
+.. code-block:: bash
 	
 	pip install .
 
 
-To update, run
+Be sure that the environment is active prior to installation.
 
-.. code-block::
+To update, run:
+
+.. code-block:: bash
 	
 	pip install --upgrade .
 
-If you are using with the dissertation conda environment, a version of this code is already included in the environment. To ensure that you have the latest version, run the update command before executing the notebooks.
 
 Usage
 -----

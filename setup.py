@@ -7,7 +7,7 @@ def readme():
         return f.read()
 
 setup(name='GoH',
-      version='0.2',
+      version='0.5',
       description='Dissertation related functions and utilities',
       long_description=readme(),
       url='',

@@ -4,11 +4,9 @@ Modules
 .. toctree::
    :maxdepth: 1
    
-   charts
-   clean
-   compile
-   normalize
-   reports
+   gather
+   describe
+   preprocess_text
    utilities
 
 

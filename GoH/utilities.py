@@ -320,7 +320,7 @@ def create_tar_files(corpusDir, samplePrefix, tarFullCorpusObject, selectList):
     Args:
         corpusDir (str): Output path for tar files
         samplePrefix (str): Unique identifier for tar files
-        tarFullCorpusObject (): Tar object from the full corpus
+        tarFullCorpusObject (tar): Tar object from the full corpus
         selectList (list): List of filenames (basenames) to include in sample.
     Returns:
         No return     
