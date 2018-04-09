@@ -4,6 +4,8 @@ from bokeh.plotting import figure, output_file, output_notebook, save, show
 from collections import defaultdict
 from GoH import utilities
 # from GoH import charts
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from nltk import FreqDist
 import numpy as np

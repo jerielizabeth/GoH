@@ -9,6 +9,8 @@ Examples:
     >>> spelling_dictionary = GoH.utilities.create_spelling_dictionary( wordlists, directory )
 
 """
+
+
 import gspread
 from nltk.tokenize import WhitespaceTokenizer
 from nltk import word_tokenize
@@ -130,9 +132,8 @@ def stats_to_df( corpus_statistics ):
     Note:
         Use :func:`GoH.reports.process_directory` before running `stats_to_df`
 
-    Args:
-        corpus_statistics (dict): List of dictionaries with the information about all of the files in a directory.
-        The corpus data should be formatted as follows::
+    Note:
+        The corpus data should be formatted as follows
 
             {
                 'doc_id': document,
@@ -143,15 +144,21 @@ def stats_to_df( corpus_statistics ):
                 'errors': error_report
             }
 
-    Returns:
-        dataframe: Returns a dataframe with the following columns::
-
+        Columns of output are
             `doc_id`
             `error_rate`
             `num_tokens`
             `num_errors`
 
+    Args:
+        corpus_statistics (dict): List of dictionaries with the information about all of the files in a directory.
+        
+
+    Returns:
+        dataframe: Returns a dataframe
+
 	"""
+
 	df = pd.DataFrame(corpus_statistics, columns=["doc_id", "error_rate", "num_tokens", "num_errors"])
 
 	return df
@@ -166,9 +173,8 @@ def rate_per_doc( corpus_statistics ):
     Note:
         Use :func:`GoH.reports.process_directory` before running `stats_to_df`
     
-    Args:
-        corpus_statistics (dict): List of dictionaries with the information about all of the files in a directory.
-        The corpus data should be formatted as follows::
+    Note:
+        The corpus data should be formatted as follows:
 
             {
                 'doc_id': document,
@@ -179,15 +185,21 @@ def rate_per_doc( corpus_statistics ):
                 'errors': error_report
             }
 
-    Returns:
-        dict: Returns a subset of the data in `corpus_statistics`, namely the doc_id and the error_rate. 
-        Formatted as below::
+        Output formatted as below:
 
             { 
                 'doc_id': 'TITLEYYYYMMDD-V00-00-page0.txt'
                 'error_rate': .02
             }
+
+    Args:
+        corpus_statistics (dict): List of dictionaries with the information about all of the files in a directory.
+
+    Returns:
+        dict: Returns a subset of the data in `corpus_statistics`, namely the doc_id and the error_rate. 
+        
     """
+
     docs_2_rates = {}
     for report in corpus_statistics:
         docs_2_rates.update({report['doc_id']: report['error_rate']})
@@ -213,6 +225,7 @@ def get_year( page_id ):
     Returns:
         str: Returns the first four digits, which corresponds to the year of publication.
     """
+
     split_id = page_id.split('-')
     dates = re.search(r'[0-9]+', split_id[0])
     
@@ -237,6 +250,7 @@ def get_title( page_id ):
     Returns:
         str: Returns the title information from the page id.
     """
+
     split_id = page_id.split('-')
     title = re.match("[A-Za-z]+", split_id[0])
     
@@ -253,6 +267,7 @@ def get_doc_errors( input_dir, filename, dictionary ):
     Returns:
         set: Returns set of words in doc that are not in the dictionary.
     """
+
     text = strip_punct(readfile(input_dir, filename))
     tokens = to_lower(tokenize_text(text, tokenizer='whitespace'))
     return identify_errors(tokens, dictionary)
@@ -269,6 +284,7 @@ def open_original_docs(filenames,
         text_dir (str): Path to directory with TXT files.
         filenames (list): List of filenames to open.
     """
+
     print("Opened files: \n")
 
     for filename in filenames:

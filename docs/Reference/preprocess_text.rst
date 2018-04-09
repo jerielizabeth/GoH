@@ -1,5 +1,5 @@
 preprocess_text
 ===============
 
-.. automodule:: preprocess_text
+.. automodule:: GoH.preprocess_text
 	:members:

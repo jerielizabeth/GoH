@@ -24,6 +24,8 @@ setup(name='GoH',
           'scipy <= 0.19.0',
           # 'numpy <= 1.12.0'
           'bokeh == 0.12.5',
-          'seaborn'
+          'seaborn',
+          'pyxdameraulevenshtein',
+          'matplotlib == 2.0.2'
       ],
       zip_safe=False)

@@ -1,22 +1,18 @@
 # -*- coding: utf-8 -*-
 
-"""
-Collection of functions for cleaning the periodical text files.
+""" Collection of functions for cleaning the periodical text files.
 """
 
-import GoH.clean
 import GoH.utilities
 import operator
 from pyxdameraulevenshtein import normalized_damerau_levenshtein_distance
 import re
-
 
 def period_at_end(token):
     if list(token).pop() is ".":
         return True
     else:
         return False
-
 
 def create_substitution(tokens, stem, get_prior, spelling_dictionary):
     locations = [i for i, j in enumerate(tokens) if j == stem]
