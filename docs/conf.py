@@ -38,6 +38,7 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.ifconfig',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'sphinx.ext.intersphinx',
     'sphinxcontrib.napoleon']
 
 # Add any paths that contain templates here, relative to this directory.
@@ -96,6 +97,11 @@ napoleon_use_ivar = False
 napoleon_use_param = True
 napoleon_use_rtype = True
 napoleon_use_keyword = True
+
+# External Documentation
+intersphinx_mapping = {
+    'bs4': ('https://www.crummy.com/software/BeautifulSoup/bs4/doc/', None),
+}
 
 # -- Options for HTML output ----------------------------------------------
 import sphinx_rtd_theme

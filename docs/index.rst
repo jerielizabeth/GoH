@@ -7,13 +7,13 @@ Code documentation for *A Gospel of Health and Salvation*
 =========================================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 3
 
    Reference/index
 
 
-
+Project Readme
+--------------
 .. include:: ../README.rst
 
 

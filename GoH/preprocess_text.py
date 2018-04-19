@@ -1,20 +1,31 @@
 # -*- coding: utf-8 -*-
 
-""" Collection of functions for cleaning the periodical text files.
-"""
-
 import GoH.utilities
 import operator
 from pyxdameraulevenshtein import normalized_damerau_levenshtein_distance
 import re
 
 def period_at_end(token):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     if list(token).pop() is ".":
         return True
     else:
         return False
 
 def create_substitution(tokens, stem, get_prior, spelling_dictionary):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
     locations = [i for i, j in enumerate(tokens) if j == stem]
     for location in locations:
         # Option 1
@@ -48,6 +59,13 @@ def create_substitution(tokens, stem, get_prior, spelling_dictionary):
 
 
 def check_if_stem(stems, spelling_dictionary, tokens, get_prior=True):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
     replacements = []
     for stem in stems:
         if len(stem) > 1:
@@ -72,6 +90,13 @@ def check_if_stem(stems, spelling_dictionary, tokens, get_prior=True):
 
 
 def replace_split_words(pair, content):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
     return re.sub('{}\s+{}'.format(pair[0], pair[1]), '{}{}'.format(pair[0], pair[1]), content)
 
 
@@ -80,15 +105,36 @@ def replace_pair(pair, content):
     Uses regex to locate a pair.
     First element of the tuple is the original error token.
     Second element of the tuple is the replacement token.
+
+
+    Args:
+
+    Returns:
+    
     """
     return re.sub(pair[0], ' {} '.format(pair[1]), content)
 
 
 def find_split_words(pattern, content):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
     return pattern.findall(content)
 
 
 def check_splits(pattern, spelling_dictionary, content, replacements):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
+
     # Use regex pattern to identify "split words"
     split_words = find_split_words(pattern, content)
 
@@ -116,6 +162,14 @@ def check_splits(pattern, spelling_dictionary, content, replacements):
             pass
 
 def check_for_repeating_characters(tokens, character):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
+
     replacements = []
     pattern = "([" + character + "{2,}]{2,4})"
 
@@ -143,6 +197,7 @@ def normalize_chars(content):
     Returns:
         str: file content with normalized characters as a string.
     """
+
     # Substitute for all other dashes
     content = re.sub(r"—-—–‑", r"-", content)
 
@@ -162,6 +217,7 @@ def remove_special_chars(content):
         str: File content with special characters removed.
 
     """
+
     # Replace all special characters with a space (as these tend to occur at the end of lines)
     return re.sub(r"[^a-zA-Z0-9\s,.!?$:;\-&\'\"]", r" ", content)
 
@@ -175,6 +231,7 @@ def replace_apostrophe_error(content):
     Returns
         str: Files content with apostrophes correctly.
     """
+
     return re.sub(r"(\w+)(õ|Õ)", r"\1'", content)
 
 
@@ -189,6 +246,7 @@ def connect_line_endings(content):
     Returns:
         str: File content with words rejoined.
     """
+
     return re.sub(r"(\w+)(\-\s{1,})([a-z]+)", r"\1\3", content)
 
 
@@ -202,6 +260,7 @@ def rejoin_burst_words(content, spelling_dictionary):
         str: Content with splits rejoined.
 
     """
+
     pattern = re.compile("(\s(\w{1,2}\s){5,})")
     
     replacements = []
@@ -218,6 +277,12 @@ def rejoin_burst_words(content, spelling_dictionary):
 
 def rejoin_split_words(content, spelling_dictionary, get_prior=False):
     """
+
+    Args:
+
+    Returns:
+    
+
     """
     tokens = GoH.utilities.tokenize_text(GoH.utilities.strip_punct(content))
     errors = GoH.describe.identify_errors(tokens, spelling_dictionary)
@@ -232,7 +297,17 @@ def rejoin_split_words(content, spelling_dictionary, get_prior=False):
         print("No replacement pairs found.")
 
     return content
+
+
 def get_approved_tokens(content, spelling_dictionary, verified_tokens):
+    """
+
+
+    Args:
+
+    Returns:
+    
+    """
     text = GoH.utilities.strip_punct(content)
     tokens = GoH.utilities.tokenize_text(text)
 
@@ -242,6 +317,13 @@ def get_approved_tokens(content, spelling_dictionary, verified_tokens):
 
 
 def verify_split_string(list_split_string, spelling_dictionary):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
     total_len = len(list_split_string)
     verified_splits = 0
     short_splits = 0
@@ -263,9 +345,15 @@ def verify_split_string(list_split_string, spelling_dictionary):
 
 def infer_spaces(s, wordcost, maxword):
     """Uses dynamic programming to infer the location of spaces in a string
-    without spaces."""
+    without spaces.
 
-    # solution from http://stackoverflow.com/questions/8870261/how-to-split-text-without-spaces-into-list-of-words
+    Solution from `http://stackoverflow.com/questions/8870261/ <http://stackoverflow.com/questions/8870261/>`_
+
+    Args:
+
+    Returns:
+    
+    """
 
     # Find the best match for the i first characters, assuming cost has
     # been built for the i-1 first characters.
@@ -293,11 +381,27 @@ def infer_spaces(s, wordcost, maxword):
 
 
 def check_probability(word, WORDS):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
+
     N = sum(WORDS.values())
     return WORDS[word]/N
 
 
 def check_for_substitutes(error, spelling_dictionary, WORDS):
+    """
+
+    Args:
+
+    Returns:
+    
+    """
+
     potential_subs = {}
     range = (len(error) - 2, len(error) + 2)
     for word in spelling_dictionary:

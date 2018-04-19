@@ -1,7 +1,3 @@
-==========
-GoH
-==========
-
 Collection of functions used in my dissertation, *A Gospel of Health and Salvation*. 
 
 

@@ -21,6 +21,11 @@ def extract_params(statefile):
 
 def state_to_df(statefile):
     """Transform state file into pandas dataframe
+
+    Args:
+
+    Returns:
+    
     """
     return pd.read_csv(statefile,
                        compression='gzip',

@@ -1,16 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-The utilities package provides a collection of functions used to prepare data for different
-analysis tasks. These are largely helper functions, but some can operate on their own.
-
-Examples:
-    >>> text = GoH.utilities.readfile( input_dir, filename)
-    >>> spelling_dictionary = GoH.utilities.create_spelling_dictionary( wordlists, directory )
-
-"""
-
-
 import gspread
 from nltk.tokenize import WhitespaceTokenizer
 from nltk import word_tokenize
@@ -135,14 +124,12 @@ def stats_to_df( corpus_statistics ):
     Note:
         The corpus data should be formatted as follows
 
-            {
-                'doc_id': document,
-                'num_tokens': len(tokens),
-                'num_unique_tokens': len(set(tokens)),
-                'num_errors': error_total,
-                'error_rate': rate,
-                'errors': error_report
-            }
+            'doc_id': document,
+            'num_tokens': len(tokens),
+            'num_unique_tokens': len(set(tokens)),
+            'num_errors': error_total,
+            'error_rate': rate,
+            'errors': error_report
 
         Columns of output are
             `doc_id`
@@ -174,7 +161,7 @@ def rate_per_doc( corpus_statistics ):
         Use :func:`GoH.reports.process_directory` before running `stats_to_df`
     
     Note:
-        The corpus data should be formatted as follows:
+        The corpus data should be formatted as follows::
 
             {
                 'doc_id': document,
@@ -185,7 +172,7 @@ def rate_per_doc( corpus_statistics ):
                 'errors': error_report
             }
 
-        Output formatted as below:
+        Output formatted as below::
 
             { 
                 'doc_id': 'TITLEYYYYMMDD-V00-00-page0.txt'
@@ -318,6 +305,7 @@ def extract_words_from_dictionary(filepath):
 
     Args:
         filepath (str): Path to Gensim dictionary file (txt)
+    
     Returns:
         list: List of unique tokens.
     """
@@ -338,6 +326,7 @@ def create_tar_files(corpusDir, samplePrefix, tarFullCorpusObject, selectList):
         samplePrefix (str): Unique identifier for tar files
         tarFullCorpusObject (tar): Tar object from the full corpus
         selectList (list): List of filenames (basenames) to include in sample.
+    
     Returns:
         No return     
     """

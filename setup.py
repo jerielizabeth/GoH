@@ -17,15 +17,16 @@ setup(name='GoH',
       packages=['GoH'],
       install_requires=[
           'beautifulsoup4',
-          'nltk <= 3.2.2',
-          'pandas <= 0.19.2',
-          'gensim == 3.1.0',
-          'textblob',
-          'scipy <= 0.19.0',
-          # 'numpy <= 1.12.0'
           'bokeh == 0.12.5',
-          'seaborn',
+          'gensim == 3.1.0',
+          'matplotlib == 2.0.2',
+          'nltk <= 3.2.2',
+          # 'numpy <= 1.12.0'
+          'pandas <= 0.19.2',
           'pyxdameraulevenshtein',
-          'matplotlib == 2.0.2'
+          'scipy <= 0.19.0',
+          'seaborn',
+          'sklearn',
+          'textblob'
       ],
       zip_safe=False)

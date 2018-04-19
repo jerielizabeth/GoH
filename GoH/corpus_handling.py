@@ -2,7 +2,7 @@
 
 from gensim import utils
 from gensim.parsing.preprocessing import STOPWORDS
-from GoH.preprocess import ENTITIES
+from GoH.noun_phrases import ENTITIES
 import itertools
 import logging
 from nltk.stem.wordnet import WordNetLemmatizer
@@ -13,15 +13,6 @@ import sys
 import tarfile
 from textblob import TextBlob
 
-"""
-Series of functions for processing files for analysis. 
-
-Processes modified from the gensim api and tutorials: 
-
-- 
-- 
-
-"""
 
 def process_page(page):
     """
@@ -69,6 +60,10 @@ def head(stream, n=10):
     """
     Convenience fnc: return the first `n` elements of the stream, as plain list.
     
+    Args:
+
+    Returns:
+
     """
     return list(itertools.islice(stream, n))
 
@@ -102,6 +97,11 @@ def connect_phrases(content, entities=ENTITIES):
 
 def filter_tokens(tokens):
     """Filter out short and stopword tokens for clustering.
+
+    Args:
+
+    Returns:
+
     """
     token_list = []
     for token in tokens:
@@ -115,6 +115,10 @@ def filter_tokens(tokens):
 
 def lemmatize_tokens(tokens):
     """Convert tokens to lemmas.
+
+    Args:
+
+    Returns:
     """
     lemmatizer = WordNetLemmatizer()
     lemma_tokens = [lemmatizer.lemmatize(token) for token in tokens]
@@ -123,6 +127,11 @@ def lemmatize_tokens(tokens):
 
 
 def doc2id(corpus):
+    """
+    Args:
+
+    Returns:
+    """
     doc_dict = {}
     for title, doc_id, content in iter_Periodicals(corpus):
         doc_dict[doc_id] = title

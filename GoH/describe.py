@@ -3,7 +3,6 @@
 from bokeh.plotting import figure, output_file, output_notebook, save, show
 from collections import defaultdict
 from GoH import utilities
-# from GoH import charts
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -15,7 +14,6 @@ from os.path import isfile, join
 import pandas as pd
 import re
 import seaborn as sns
-
 
 
 def identify_errors(tokens, dictionary):
@@ -40,6 +38,8 @@ def get_error_stats(errors, tokens):
     Args:
         errors (set): Set of errors identified in `identify_errors`.
         tokens (list): Tokenized content of the file being evaluated.
+    Returns:
+        dict : Dictionary containing "error" word and its frequency in document.
     """
     freq_distribution = FreqDist(tokens) 
     
@@ -57,17 +57,21 @@ def total_errors(error_report):
     Args:
         error_report (dict): Dictionary of errors and counts generated
             using `get_error_stats` function.
+    Returns:
+        int : Sum of the total errors in the error_report dictionary.
+
     """
-    return(sum(error_report.values()))
+    return sum(error_report.values())
 
 
 def error_rate(error_total, tokens):
     """ Calculates the error rate of the document to 3 decimal places.
 
-    Arguments:
-    error_total -- Integer. Calculated using the `total_errors` 
-    function from the dictionary of errors and their counts.
-    tokens -- List of tokens that compose the text
+    Args:
+        error_total (int): Calculated using the `total_errors` function from the dictionary of errors and their counts. 
+        tokens (list):  List of tokens that compose the text 
+    Returns:
+        int: percent (to 3 digits) of the tokens in document identified as errors. Or NaN if no tokens in doc.
     """
     if len(tokens) > 0:
         return(float("{0:.3f}".format(error_total/len(tokens))))
@@ -85,17 +89,20 @@ def generate_doc_report(text, spelling_dictionary):
         - dictionary of the errors and their counts (errors)
 
     Uses a number of functions, including:
-        - `GoH.utilities.strip_punct`
-        - `GoH.utilities.tokenize_text`
-        - `GoH.utilities.to_lower`
-        - `GoH.utilities.identify_errors`
-        - `GoH.reports.get_error_stats`
-        - `GoH.reports.total_errors`
-        - `GoH.reports.error_rate`
+        - :meth:`GoH.utilities.strip_punct`
+        - :meth:`GoH.utilities.tokenize_text`
+        - :meth:`GoH.utilities.to_lower`
+        - :meth:`GoH.utilities.identify_errors`
+        - :meth:`GoH.describe.get_error_stats`
+        - :meth:`GoH.describe.total_errors`
+        - :meth:`GoH.describe.error_rate`
 
-    Arguments:
-    - text -- the content of the file being evaluated
-    - spelling_dictionary -- a set containing the collection of verified words.
+    Args:
+        text (str): the content of the file being evaluated
+        spelling_dictionary (set): a set containing the collection of verified words.
+
+    Returns:
+
     """
     text = utilities.strip_punct(text)
     tokens = utilities.tokenize_text(text)
@@ -117,13 +124,15 @@ def process_directory(directory, spelling_dictionary):
     Returns the statistics on the whole directory as a list of dictionaries.
 
     Uses the following functions:
-        - `GoH.utilities.readfile`
-        - `GoH.reports.generate_doc_report`
+        - :meth:`GoH.utilities.readfile`
+        - :meth:`GoH.describe.generate_doc_report`
 
-    Arguments:
-    - directory -- the location of the directory of files to evaluate.
-    - spelling_dictionary -- the set containing all verified words against which
-    the document is evaluated.
+    Args:
+        directory (str) : the location of the directory of files to evaluate.
+        spelling_dictionary (dict) : the set containing all verified words against which the document is evaluated.
+    
+    Returns:
+
     """
     corpus = (f for f in listdir(directory) if not f.startswith('.') and isfile(join(directory, f)))
         
@@ -144,6 +153,11 @@ def get_errors_summary(statistics):
     that records the error (as key) and the total count for that error (as value).
     Developed using: http://stackoverflow.com/questions/11011756, 
     http://stackoverflow.com/questions/27801945/
+
+    Args:
+
+    Returns:
+
     """
     all_errors = (report['errors'] for report in statistics)       
     
@@ -158,6 +172,11 @@ def get_errors_summary(statistics):
 def top_errors(errors_summary, min_count):
     """ 
     Use the errors_summary to report the top errors.
+
+    Args:
+
+    Returns:
+
     """
 
     # Subset errors_summary using the min_count
@@ -169,12 +188,16 @@ def top_errors(errors_summary, min_count):
 
 def long_errors(errors_summary, min_length=10):
     """
-    Use the error_summary to isolate tokens that are longer thatn the min_length. 
+    Use the error_summary to isolate tokens that are longer than the min_length. 
     Used to identify strings of words that have been run together due to the failure
     of the OCR engine to recognize whitespace.
 
-    Arguments:
-    - errors_summary -- 
+    Args:
+        errors_summary (str) :
+        min_length (int):
+
+    Returns:
+
     """
     errors = list(errors_summary.keys())
 
@@ -182,6 +205,13 @@ def long_errors(errors_summary, min_length=10):
 
 
 def tokens_with_special_characters(errors_summary):
+    """
+
+    Args:
+
+    Returns:
+
+    """
     errors = list(errors_summary.keys())
 
     special_characters = []
@@ -197,6 +227,13 @@ def tokens_with_special_characters(errors_summary):
 
 
 def docs_with_high_error_rate(corpus_statistics, min_error_rate=.2):
+    """
+    Args:
+
+    Returns:
+
+    """
+
     # Gather list of doc_id and num_errors
     docs_2_errors = {}
     for report in corpus_statistics:
@@ -210,6 +247,11 @@ def docs_with_high_error_rate(corpus_statistics, min_error_rate=.2):
 
 
 def docs_with_low_token_count(corpus_statistics, max_token_count=350):
+    """
+    Args:
+
+    Returns:
+    """
     # Gather list of doc_ids and total token count
     docs_2_tokens = {}
     for report in corpus_statistics:
@@ -223,12 +265,22 @@ def docs_with_low_token_count(corpus_statistics, max_token_count=350):
 
 
 def token_count(df):
+    """ 
+    Args:
+
+    Returns:
+    """
     return df['num_tokens'].sum()
 
 
 def average_verified_rate(df):
     """ To compute average error rate, add up the total number of tokens
-    and the total number of errors """
+    and the total number of errors 
+    
+    Args:
+
+    Returns:
+    """
     total_tokens = token_count(df)
     total_errors = df['num_errors'].sum()
 
@@ -239,6 +291,11 @@ def average_verified_rate(df):
 
 
 def average_error_rate(df):
+    """
+    Args:
+
+    Returns:
+    """
     error_sum = df['error_rate'].sum()
     total_docs = len(df.index)
 
@@ -246,6 +303,13 @@ def average_error_rate(df):
 
 
 def overview_report(directory, spelling_dictionary, title):
+    """
+
+    Args:
+
+    Returns:
+    """
+
     corpus_statistics = process_directory(directory, spelling_dictionary)
 
     df = utilities.stats_to_df(corpus_statistics)
@@ -262,6 +326,10 @@ def overview_report(directory, spelling_dictionary, title):
 
 def overview_statistics(directory, spelling_dictionary, title):
     """
+    Args:
+
+    Returns:
+
     """
     corpus_statistics = process_directory(directory, spelling_dictionary)
 
@@ -273,6 +341,10 @@ def overview_statistics(directory, spelling_dictionary, title):
 
 def chart_error_rate_distribution( df, title ):
     """
+    Args:
+
+    Returns:
+
     """
     
     df = df[pd.notnull(df['error_rate'])]
@@ -290,6 +362,10 @@ def chart_error_rate_distribution( df, title ):
 
 def chart_error_rate_per_doc( df, title ):
     """
+    Args:
+
+    Returns:
+    
     """
     
     # sort df by doc_id
