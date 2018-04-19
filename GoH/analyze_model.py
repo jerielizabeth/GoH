@@ -62,7 +62,7 @@ def select_topics(df, columns=""):
 def plot_select_topics(df, collection):
     df = select_topics(df, collection)
     sns.lmplot(x="year", y="topic_proportion", hue='topic', data=df, fit_reg=False, size=4, aspect=2)
-    plt.ylim(0, 0.1)
+    plt.ylim(0, 0.2)
     plt.xlim(1845, 1925)
 
     
@@ -70,7 +70,7 @@ def plot_sum_select_topics(df, collection):
     subset = df.pivot(index="year", columns="topic", values="topic_proportion")
     summed = subset[collection].sum(axis=1)
     summed.plot(figsize=(9,5))
-    plt.ylim(0, 0.1)
+    plt.ylim(0, 0.2)
     plt.xlim(1845, 1925)
 
 
