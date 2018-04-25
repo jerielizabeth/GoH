@@ -9,6 +9,9 @@ Overview
 
 Collection of functions for cleaning the periodical text files.
 
+Usage
+~~~~~
+
 Functions
 ---------
 

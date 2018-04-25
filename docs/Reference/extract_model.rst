@@ -7,6 +7,8 @@ Extract Model
 Overview
 --------
 
+Usage
+~~~~~
 
 Functions
 ---------

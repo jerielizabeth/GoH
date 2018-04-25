@@ -10,6 +10,8 @@ Series of functions for processing files for analysis.
 
 Processes modified from the gensim api and tutorials: 
 
+Usage
+~~~~~
 
 Functions
 ---------

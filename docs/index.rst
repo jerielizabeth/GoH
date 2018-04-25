@@ -12,8 +12,8 @@ Code documentation for *A Gospel of Health and Salvation*
    Reference/index
 
 
-Project Readme
---------------
+About the GoH Library
+---------------------
 .. include:: ../README.rst
 
 

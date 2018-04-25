@@ -7,6 +7,9 @@ Verify Model
 Overview
 --------
 
+Usage
+~~~~~
+
 
 Functions
 ---------

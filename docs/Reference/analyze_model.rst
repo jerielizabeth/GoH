@@ -7,6 +7,8 @@ Analyze Model
 Overview
 --------
 
+Usage
+~~~~~
 
 Functions
 ---------
