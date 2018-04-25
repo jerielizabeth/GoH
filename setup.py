@@ -21,7 +21,7 @@ setup(name='GoH',
           'gensim == 3.1.0',
           'matplotlib == 2.0.2',
           'nltk <= 3.2.2',
-          # 'numpy <= 1.12.0'
+          'numpy == 1.12.0'
           'pandas <= 0.19.2',
           'pyxdameraulevenshtein',
           'scipy == 0.18.1',
