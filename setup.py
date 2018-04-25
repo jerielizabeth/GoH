@@ -24,7 +24,7 @@ setup(name='GoH',
           # 'numpy <= 1.12.0'
           'pandas <= 0.19.2',
           'pyxdameraulevenshtein',
-          'scipy <= 0.19.0',
+          'scipy == 0.18.1',
           'seaborn',
           'sklearn',
           'textblob'
